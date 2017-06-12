@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#D33A31">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#D33A31"
+            android:layout_gravity="left"
+            app:srcCompat="@mipmap/mine"
+            android:id="@+id/img_mine" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_music"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#D33A31"
+            app:srcCompat="@mipmap/music"
+            android:clickable="false"
+            android:id="@+id/img_music" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_main"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:background="#D33A31"
+            app:srcCompat="@mipmap/main"
+            android:id="@+id/img_main"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_news"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:background="#D33A31"
+            app:srcCompat="@mipmap/imgnew"
+            android:id="@+id/img_news"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:gravity="center">
+
+        <ImageButton
+            android:background="#D33A31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            app:srcCompat="@mipmap/find"
+            android:id="@+id/img_findmusic" />
+
+    </LinearLayout>
+</LinearLayout>

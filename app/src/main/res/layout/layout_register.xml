@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/register_top"/>
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:hint="手机号"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/editText3" />
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:hint="密码"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText4" />
+
+    <Button
+        android:text="注册"
+        android:textSize="20sp"
+        android:layout_marginTop="30dp"
+        android:textColor="#ffffff"
+        android:background="#D33A31"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button5" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_marginTop="210dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/registerother" />
+
+</LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <ImageView
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/cloudmusic"
+        android:id="@+id/imageView" />
+
+    <ImageButton
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/phone1"
+        android:id="@+id/imageButton3" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/register"
+        android:id="@+id/imageButton4" />
+
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="173dp"
+        android:layout_height="30dp"
+        app:srcCompat="@mipmap/youke"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/login"
+        android:id="@+id/imageView3"
+        android:gravity="bottom" />
+
+</LinearLayout>
