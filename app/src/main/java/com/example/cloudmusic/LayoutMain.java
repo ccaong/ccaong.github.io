@@ -17,7 +17,7 @@ public class LayoutMain extends RelativeLayout {
         super(context, attrs);
     }
     //返回TRUE在当前layout下进行操作
-    public boolean onInterceptTouchEvent(MotionEvent event)
+    public boolean onTouchEvent(MotionEvent event)
     {
         //获取点击事件
         int action = event.getAction();

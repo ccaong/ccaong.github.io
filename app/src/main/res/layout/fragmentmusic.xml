@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.cloudmusic.LayoutMusic
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/viewmusic"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="音乐"
-        android:textSize="30sp"
+    <ListView
+        android:id="@+id/list_music"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:layout_height="match_parent"></ListView>
 
-</com.example.cloudmusic.LayoutMusic>
+
+</LinearLayout>

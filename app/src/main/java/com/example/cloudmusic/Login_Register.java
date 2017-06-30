@@ -11,13 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 /**
  * Created by 聪 on 2017/6/6.
  */
 
 public class Login_Register extends AppCompatActivity {
-    ImageButton btn_login,btn_register,btn_youke;
+    ImageButton btn_login,btn_register;
+    TextView btn_youke;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class Login_Register extends AppCompatActivity {
 
         btn_login= (ImageButton) findViewById(R.id.imageButton3);
         btn_register = (ImageButton) findViewById(R.id.imageButton4);
-        btn_youke= (ImageButton) findViewById(R.id.imageButton);
+        btn_youke= (TextView) findViewById(R.id.imageButton);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override

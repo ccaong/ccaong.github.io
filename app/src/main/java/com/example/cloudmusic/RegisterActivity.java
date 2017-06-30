@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageButton img_back;
     private Button btn_register;
     RequestQueue queue;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -44,12 +46,18 @@ public class RegisterActivity extends AppCompatActivity {
         tv_phone= (EditText) findViewById(R.id.editText3);
         tv_pwd= (EditText) findViewById(R.id.editText4);
         btn_register= (Button) findViewById(R.id.button5);
+        progressBar= (ProgressBar) findViewById(R.id.progressBar2);
+
+        //隐藏progressBar
+        progressBar.setVisibility(View.INVISIBLE);
 
         queue = Volley.newRequestQueue(this);
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //显示progressBar
+                progressBar.setVisibility(View.VISIBLE);
                 register();
             }
         });
@@ -66,7 +74,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void register() {
         String username=tv_phone.getText().toString();
         String password=tv_pwd.getText().toString();
-        String url="http://10.18.31.152:8080/MusicDemo1/reg?username="+ username+"&password="+password;
+
+        String url= MyApplication.Url+"MusicDemo1/reg?username="+ username+"&password="+password;
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -74,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(s.equals("true")){
                     Intent intent  = new Intent(RegisterActivity.this,MainActivity.class);
                     startActivity(intent);
+                    //隐藏progressBar
+                    progressBar.setVisibility(View.INVISIBLE);
                 }else{
                     AlertDialog.Builder adb= new AlertDialog.Builder(RegisterActivity.this);
                     adb.setTitle("提示");
@@ -93,6 +104,8 @@ public class RegisterActivity extends AppCompatActivity {
                     });
                     adb.create();
                     adb.show();
+                    //隐藏progressBar
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         }, new Response.ErrorListener() {
@@ -100,6 +113,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError volleyError) {
                 Log.i("request","请求失败");
                 Toast.makeText(RegisterActivity.this,"与服务器断开连接，请稍后重试！",Toast.LENGTH_SHORT).show();
+                //隐藏progressBar
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
         queue.add(stringRequest);

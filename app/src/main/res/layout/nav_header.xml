@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="#D33A31"
+    android:padding="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/nav_icon"
+        android:layout_above="@+id/btn_qd"
+        android:layout_alignEnd="@+id/tv_ts" />
+
+    <TextView
+        android:id="@+id/tv_ts"
+        android:text="您还没有登录，请先登录"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text="登录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tony Green"
+        android:textColor="#FFF"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/btn_qd"
+        android:layout_alignBottom="@+id/btn_qd" />
+
+    <Button
+        android:id="@+id/btn_qd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="23dp"
+        android:text="签到" />
+
+</RelativeLayout>

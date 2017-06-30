@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         String username=tv_phone.getText().toString();
         String password=tv_pwd.getText().toString();
 
-        String url="http://10.18.31.152:8080/MusicLogin/login?username="+ username+"&password="+password;
+        String url= MyApplication.Url+"MusicLogin/login?username="+ username+"&password="+password;
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -85,12 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                 if(s.equals("success")){
 
                     String data1=tv_phone.getText().toString();
+                    MyApplication.UserName = data1;
                     Intent intent  = new Intent(LoginActivity.this,MainActivity.class);
-                    intent.putExtra("param1",data1);
                     startActivity(intent);
                     finish();
-
-//                    MainActivity.actionStart(LoginActivity.this,data1);
 
 //                    //隐藏progressBar
                     progressBar.setVisibility(View.GONE);
@@ -105,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("request","请求失败");
                Toast.makeText(LoginActivity.this,"与服务器断开连接，请稍后重试！",Toast.LENGTH_SHORT).show();
                 btn_login.setText("登录");
-//                MainActivity.actionStart(LoginActivity.this,data1);
+
                 //隐藏progressBar
                     progressBar.setVisibility(View.GONE);
             }

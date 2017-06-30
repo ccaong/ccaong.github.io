@@ -1,23 +1,22 @@
 package com.example.cloudmusic;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,75 +28,49 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.id.list;
-
 public class MainActivity extends AppCompatActivity {
     //抽屉菜单
     private DrawerLayout drawerLayout;
     private RelativeLayout leftLayout;
     private ViewPager mViewPager;
-    private FragmentPagerAdapter mAdapter;
+//    private FragmentPagerAdapter mAdapter;
     private LinearLayout mTabMusic,mTabMain,mTabNews;
     private ImageButton imgMusic,imgMain,imgNews,imgFindMusic,imgmine;
+//    private List<MusicList> musicLists = new ArrayList<>();
 
-    private WebView webview;
+    private NavigationView navigationView;
 
-    private TextView tv_name,tv_login;
-    private Button btn_login, btn_qd;
+    private TextView tv_username,tv_ts,tv_gxtj,tv_gd,tv_zbdt,tv_phb;
+    private Button btn_login, btn_qd,btn_java;
     private String str1;
     private ImageView img_user;
-    private Button btn_start;
+    private FragmentPagerAdapter mAdapter;
+//    private List<Fragment> mFragments;
+    public ViewPager child_viewpager;
 
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        //获取上一个活动传递来的信息
-//        str1 = getIntent().getStringExtra("param1");
-//
-//        if(str1==null){
-//            btn_qd.setVisibility(View.INVISIBLE);//签到按钮处于不可见状态
-//            img_user.setVisibility(View.INVISIBLE);
-//            tv_name.setVisibility(View.INVISIBLE);
-//
-//        }else {
-//
-//            Log.i("ccaong",str1);
-//            btn_qd.setVisibility(View.VISIBLE);//签到按钮处于可见状态
-//            img_user.setVisibility(View.VISIBLE);
-//            tv_name.setVisibility(View.VISIBLE);
-//
-//            btn_login.setVisibility(View.INVISIBLE);
-//            tv_login.setVisibility(View.INVISIBLE);
-//            tv_name.setText(str1);//将获取的用户名赋值给控件
-//        }
-//    }
-
-
+    public MainActivity() {
+    }
 
     @Override
     protected void onResume() {
 
         super.onResume();
 
-        //获取上一个活动传递来的信息
-        str1 = getIntent().getStringExtra("param1");
-
+        //获取全局变量的信息
+        str1 = MyApplication.UserName;
         if(str1==null){
             btn_qd.setVisibility(View.INVISIBLE);//签到按钮处于不可见状态
             img_user.setVisibility(View.INVISIBLE);
-            tv_name.setVisibility(View.INVISIBLE);
+            tv_username.setVisibility(View.INVISIBLE);
 
         }else {
-
-            Log.i("ccaong",str1);
             btn_qd.setVisibility(View.VISIBLE);//签到按钮处于可见状态
             img_user.setVisibility(View.VISIBLE);
-            tv_name.setVisibility(View.VISIBLE);
+            tv_username.setVisibility(View.VISIBLE);
 
-            btn_login.setVisibility(View.INVISIBLE);
-            tv_login.setVisibility(View.INVISIBLE);
-            tv_name.setText(str1);//将获取的用户名赋值给控件
+            btn_login.setVisibility(View.GONE);
+            tv_ts.setVisibility(View.GONE);
+            tv_username.setText(str1);//将获取的用户名赋值给控件
         }
     }
 
@@ -114,45 +87,36 @@ public class MainActivity extends AppCompatActivity {
 //            decorView.setSystemUiVisibility(option);
 //            getWindow().setStatusBarColor(Color.TRANSPARENT);
 //        }
+
+        //隐藏actionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-
-        //抽屉菜单
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-        leftLayout=(RelativeLayout) findViewById(R.id.left);
 
         initViews();
         initEvents();
         initDatas();
 
-    }
+        //设置主页面显示第几个fragment界面
+        mViewPager.setCurrentItem(1);
 
-
-
-
-    View.OnClickListener onClickListener= new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //重置所有图片
-            resetImgs();
-            //更换图片
-            //获取点击的id
-            switch (v.getId()){
-                case R.id.tab_music:
-                    selectTab(0);
-                    break;
-                case R.id.tab_main:
-                    selectTab(1);
-                    break;
-                case R.id.tab_news:
-                    selectTab(2);
-                    break;
+        navigationView.setCheckedItem(R.id.nav_call);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item){
+                drawerLayout.closeDrawers();
+                return true;
             }
-        }
-    };
+        });
+
+    }
 
     //找到控件
     private void initViews(){
+
+        //抽屉菜单
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        leftLayout=(RelativeLayout) findViewById(R.id.left);
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
         mTabMusic = (LinearLayout) findViewById(R.id.tab_music);
@@ -163,17 +127,27 @@ public class MainActivity extends AppCompatActivity {
         imgMain= (ImageButton) findViewById(R.id.img_main);
         imgNews= (ImageButton) findViewById(R.id.img_news);
 
-        btn_start= (Button) findViewById(R.id.login);
+        drawerLayout= (DrawerLayout) findViewById(R.id.drawerlayout);
 
         imgFindMusic= (ImageButton) findViewById(R.id.img_findmusic);
-
-        btn_login= (Button) findViewById(R.id.login);
-        btn_qd= (Button) findViewById(R.id.btn_qd);
-        img_user= (ImageView) findViewById(R.id.img_user);
-        tv_name= (TextView) findViewById(R.id.tv_name);
-        tv_login= (TextView) findViewById(R.id.tv_login);
-
         imgmine= (ImageButton) findViewById(R.id.img_mine);
+
+        navigationView= (NavigationView) findViewById(R.id.nav_view);
+
+        View headerView = navigationView.getHeaderView(0);
+
+        btn_login= (Button) headerView.findViewById(R.id.btn_login);
+        btn_qd= (Button) headerView.findViewById(R.id.btn_qd);
+        img_user= (ImageView)  headerView.findViewById(R.id.icon_image);
+        tv_username= (TextView)  headerView.findViewById(R.id.tv_username);
+        tv_ts= (TextView)  headerView.findViewById(R.id.tv_ts);
+
+        tv_gxtj= (TextView) findViewById(R.id.tv_gxtj);
+        tv_gd= (TextView) findViewById(R.id.tv_gd );
+        tv_zbdt= (TextView) findViewById(R.id.tv_zbdt);
+        tv_phb= (TextView) findViewById(R.id.tv_phb);
+
+        btn_java= (Button) findViewById(R.id.btn_java);
     }
 
     //点击事件
@@ -181,15 +155,6 @@ public class MainActivity extends AppCompatActivity {
         mTabMusic.setOnClickListener(onClickListener);
         mTabMain.setOnClickListener(onClickListener);
         mTabNews.setOnClickListener(onClickListener);
-
-        //打开登录&注册界面
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent  = new Intent(MainActivity.this,Login_Register.class);
-                startActivity(intent);
-            }
-        });
 
         //查找音乐界面
         imgFindMusic.setOnClickListener(new View.OnClickListener() {
@@ -200,61 +165,123 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //点击展开抽屉菜单
+        imgmine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        //签到按钮点击事件
+        btn_qd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
+                btn_qd.setText("已签到");
+            }
+        });
+
+        //打开登录&注册界面
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent  = new Intent(MainActivity.this,Login_Register.class);
+                startActivity(intent);
+                drawerLayout.closeDrawers();
+            }
+        });
+
+        //歌单界面
+//        btn_java.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent  = new Intent(MainActivity.this,RegisterActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
     }
+
     //初始化数据
     private void initDatas(){
+
+
         //创建一个动态数组
-        ViewPager child_viewpager;
+
+
+        //LayoutInflater用来加载布局
         LayoutInflater inflater = LayoutInflater.from(this);
-        List<View> viewList=null,childlist =null;
-        View childViewas = null,childViewml = null,childViewpr = null,childViewrl=null,fmaview=null,fmuview=null,fneview=null;
-        viewList=new ArrayList<View>();
-        childlist =new ArrayList<View>();
+        //List<View> viewList,childlist ;
+        final List<Fragment> viewList,childlist;
+        View childViewas,childViewml,childViewpr,childViewrl,fmaview,fmuview,fneview;
+        viewList=new ArrayList<>();
         LayoutMain viewmain;
+        fmaview = inflater.inflate(R.layout.fragmentmain, null);
+            /*fmuview=inflater.inflate(R.layout.fragmentmusic,null);
+            fneview=inflater.inflate(R.layout.fragmentnews,null);*/
+        viewmain = (LayoutMain) fmaview.findViewById(R.id.viewmain);
+        viewList.add(new FragmentMusic());
+        viewList.add(new FragmentMain());
+        viewList.add(new FragmentNews());
 
-            fmaview = inflater.inflate(R.layout.fragmentmain, null);
-            fmuview=inflater.inflate(R.layout.fragmentmusic,null);
-            fneview=inflater.inflate(R.layout.fragmentnews,null);
-            viewmain = (LayoutMain) fmaview.findViewById(R.id.viewmain);
-            viewList.add(fmuview);
-            viewList.add(fmaview);
-            viewList.add(fneview);
-
-            child_viewpager = (ViewPager) fmaview.findViewById(R.id.child_viewpager);
-            //注入里层viewpager
-            viewmain.setChild_viewpager(child_viewpager);
-
-            childlist = new ArrayList<View>();
-
-                childViewas = inflater.inflate(R.layout.fgastation, null);
-                childViewml = inflater.inflate(R.layout.fgmlist, null);
-                childViewpr = inflater.inflate(R.layout.fgprecommend, null);
-                childViewrl = inflater.inflate(R.layout.fgrlist, null);
-                childlist.add(childViewas);
-                childlist.add(childViewml);
-                childlist.add(childViewpr);
-                childlist.add(childViewrl);
-
-            child_viewpager.setAdapter(new ViewPagerAdapter(childlist));
-
-            mViewPager.setAdapter(new ViewPagerAdapter(viewList));
-
-        /*mFragments.add(new FragmentMusic());
-        mFragments.add(new FragmentMain());
-        mFragments.add(new FragmentNews());*/
-
-        /*mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+//            child_viewpager = (ViewPager) fmaview.findViewById(R.id.child_viewpager);
+//
+//            //注入里层viewpager
+//            viewmain.setChild_viewpager(child_viewpager);
+//
+//            childlist = new ArrayList<>();
+//
+//               /* childViewas = inflater.inflate(R.layout.fgastation,null);
+//                childViewml = inflater.inflate(R.layout.fgmlist, null);
+//                childViewpr = inflater.inflate(R.layout.fgprecommend, null);
+//                childViewrl = inflater.inflate(R.layout.fgrlist, null);*/
+//                childlist.add(new FgAnchorStation());
+//                childlist.add(new FgMusicList());
+//                childlist.add(new FgPersonRecommend());
+//                childlist.add(new FgRankList());
+//
+//            child_viewpager.setAdapter(mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+//
+//                @Override
+//                public int getCount() {
+//                    return childlist.size();
+//                }
+//                @Override
+//                public Fragment getItem(int position) {
+//                    return  childlist.get(position);
+//                }
+//            });
+//            child_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//                @Override
+//                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//                }
+//
+//                @Override
+//                public void onPageSelected(int position) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+//                        child_viewpager.setCurrentItem(position);
+//                    }
+//                }
+//
+//                @Override
+//                public void onPageScrollStateChanged(int state) {
+//
+//                }
+//            });
+        mViewPager.setAdapter(mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public int getCount() {
-                return mFragments.size();
+                return viewList.size();
             }
             @Override
             public Fragment getItem(int position) {
-                return  mFragments.get(position);
+                return  viewList.get(position);
             }
-        };*/
-        //mViewPager.setAdapter(mAdapter);
+        });
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -273,32 +300,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        //设置ViewPager的适配器
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            mViewPager.setAdapter(mAdapter);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
-
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-                @Override
-                public void onPageSelected(int position) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                        mViewPager.setCurrentItem(position);
-                    }
-                    resetImgs();
-                    selectTab(position);
-                }
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        }*/
     }
+
     private class ViewPagerAdapter extends PagerAdapter {
         List<View> viewLists;
         public ViewPagerAdapter(List<View> list) {
@@ -327,6 +330,36 @@ public class MainActivity extends AppCompatActivity {
             return viewLists.get(position);
         }
     }
+
+    //点击事件
+    View.OnClickListener onClickListener= new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //重置所有图片
+            resetImgs();
+            //更换图片
+            //获取点击的id
+            switch (v.getId()){
+                case R.id.tab_music:
+                    selectTab(0);
+                    break;
+                case R.id.tab_main:
+                    selectTab(1);
+                    break;
+                case R.id.tab_news:
+                    selectTab(2);
+                    break;
+            }
+        }
+    };
+
+    //重置所有的图片
+    private void resetImgs(){
+        imgMusic.setImageResource(R.mipmap.music);
+        imgMain.setImageResource(R.mipmap.main);
+        imgNews.setImageResource(R.mipmap.imgnew);
+    }
+
     //根据选择更换图片
     private void selectTab(int i){
         switch (i){
@@ -343,27 +376,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(i);
     }
 
-    //重置所有的图片
-    private void resetImgs(){
-        imgMusic.setImageResource(R.mipmap.music);
-        imgMain.setImageResource(R.mipmap.main);
-        imgNews.setImageResource(R.mipmap.imgnew);
-    }
-    //musicview更换图片
-    private void reEvent(int i){
-        switch (i){
-            case 0:
-                imgMusic.setImageResource(R.mipmap.music1);
-                break;
-            case 1:
-                imgMain.setImageResource(R.mipmap.main1);
-                break;
-            case 2:
-                imgNews.setImageResource(R.mipmap.imgnew1);
-                break;
-        }
-        mViewPager.setCurrentItem(i);
-    }
+
     //退出事件
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
