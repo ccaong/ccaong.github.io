@@ -13,4 +13,12 @@
         android:layout_weight="1">
     </android.support.v4.view.ViewPager>
 
+    <Button
+        android:id="@+id/play1"
+        android:background="#D33A31"
+        android:text="播放"
+        android:textColor="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

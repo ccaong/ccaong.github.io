@@ -32,7 +32,8 @@
 
         <activity android:name=".LoginActivity"></activity>
 
-        <activity android:name=".LocalMusic"></activity>
+        <activity android:name=".LocalMusic"
+            android:launchMode="singleTask"></activity>
 
         <activity android:name=".MusicPlayer"></activity>
 

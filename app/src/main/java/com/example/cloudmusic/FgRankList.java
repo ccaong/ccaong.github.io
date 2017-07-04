@@ -16,6 +16,6 @@ public class FgRankList extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fgrlist,null);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return v;
     }
 }

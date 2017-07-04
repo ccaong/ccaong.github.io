@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:background="#D33A31">
 
     <LinearLayout
@@ -20,27 +20,26 @@
             android:background="#D33A31"
             android:layout_gravity="left"
             app:srcCompat="@mipmap/back"
-            android:id="@+id/img_login_back" />
+            android:id="@+id/img_back" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tab_music"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="9"
         android:gravity="center">
 
-       <TextView
-           android:text="    手机号登陆"
-           android:layout_gravity="left"
-           android:textSize="20sp"
-           android:textColor="#ffffff"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_top"
+            android:text="    提示文字"
+            android:layout_gravity="left"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-
 
 </LinearLayout>

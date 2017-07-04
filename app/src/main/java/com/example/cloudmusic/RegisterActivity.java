@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -27,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText tv_phone,tv_pwd;
+    private TextView tv_top;
     private ImageButton img_back;
     private Button btn_register;
     RequestQueue queue;
@@ -42,12 +44,14 @@ public class RegisterActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        img_back= (ImageButton) findViewById(R.id.img_register_back);
+        img_back= (ImageButton) findViewById(R.id.img_back);
+        tv_top= (TextView) findViewById(R.id.tv_top);
         tv_phone= (EditText) findViewById(R.id.editText3);
         tv_pwd= (EditText) findViewById(R.id.editText4);
         btn_register= (Button) findViewById(R.id.button5);
         progressBar= (ProgressBar) findViewById(R.id.progressBar2);
 
+        tv_top.setText("手机号注册");
         //隐藏progressBar
         progressBar.setVisibility(View.INVISIBLE);
 

@@ -16,6 +16,9 @@ public class MyApplication extends Application {
     public static String UserName;
     public static String Url="http://10.18.31.152:8080/";
     public static List<Music> musicList;
+    public static String MusicName;
+    public static String MusicAuthor;
+    public static int MusicLongs;
 
     @Override
     public void onCreate() {

@@ -31,26 +31,27 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //抽屉菜单
     private DrawerLayout drawerLayout;
-    private RelativeLayout leftLayout;
-    private ViewPager mViewPager;
-//    private FragmentPagerAdapter mAdapter;
-    private LinearLayout mTabMusic,mTabMain,mTabNews;
-    private ImageButton imgMusic,imgMain,imgNews,imgFindMusic,imgmine;
-//    private List<MusicList> musicLists = new ArrayList<>();
-
     private NavigationView navigationView;
 
-    private TextView tv_username,tv_ts,tv_gxtj,tv_gd,tv_zbdt,tv_phb;
-    private Button btn_login, btn_qd,btn_java;
-    private String str1;
+    private ViewPager mViewPager;
+
+    private LinearLayout mTabMusic,mTabMain,mTabNews;
+    private ImageButton imgMusic,imgMain,imgNews,imgFindMusic,imgmine;
+
+    private TextView tv_username,tv_ts;
+    private Button btn_login, btn_qd,btn_play;
     private ImageView img_user;
+
+    private String str1;            //存储全局变量信息（用户名）
+
+
     private FragmentPagerAdapter mAdapter;
+
 //    private List<Fragment> mFragments;
-    public ViewPager child_viewpager;
+//    public ViewPager child_viewpager;
 
-    public MainActivity() {
-    }
 
+    //根据登录状态显示不同的信息
     @Override
     protected void onResume() {
 
@@ -72,6 +73,16 @@ public class MainActivity extends AppCompatActivity {
             tv_ts.setVisibility(View.GONE);
             tv_username.setText(str1);//将获取的用户名赋值给控件
         }
+
+        //根据是否播放决定是否显示底部的按钮
+        if(PlayService.mediaPlayer != null && PlayService.mediaPlayer.isPlaying()){
+            btn_play.setVisibility(View.VISIBLE);
+        }else {
+            btn_play.setVisibility(View.GONE);
+        }
+
+        //显示正在播放的歌曲名
+        btn_play.setText("正在播放："+MyApplication.MusicName+">>>");
     }
 
 
@@ -89,24 +100,20 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         //隐藏actionBar
+
+        //隐藏actionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        initViews();
-        initEvents();
-        initDatas();
+        initViews();        //寻找控件方法
+        initEvents();       //设置监听、点击事件方法
+        initDatas();        //初始化数据方法
 
         //设置主页面显示第几个fragment界面
         mViewPager.setCurrentItem(1);
 
+        //设置抽屉菜单中默认选中项目
         navigationView.setCheckedItem(R.id.nav_call);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item){
-                drawerLayout.closeDrawers();
-                return true;
-            }
-        });
 
     }
 
@@ -114,40 +121,37 @@ public class MainActivity extends AppCompatActivity {
     private void initViews(){
 
         //抽屉菜单
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-        leftLayout=(RelativeLayout) findViewById(R.id.left);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);      //布局文件
+        navigationView= (NavigationView) findViewById(R.id.nav_view);
 
+        View headerView = navigationView.getHeaderView(0);
+        //抽屉菜单内的控件
+        tv_ts= (TextView)  headerView.findViewById(R.id.tv_ts);               //登录提示
+        btn_login= (Button) headerView.findViewById(R.id.btn_login);         //登录按钮
+        btn_qd= (Button) headerView.findViewById(R.id.btn_qd);                //签到按钮
+        img_user= (ImageView)  headerView.findViewById(R.id.icon_image);     //用户头像
+        tv_username= (TextView)  headerView.findViewById(R.id.tv_username);  //用户名
+
+        //主界面中的viewpager
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
+        //主界面的三个主要控件
         mTabMusic = (LinearLayout) findViewById(R.id.tab_music);
         mTabMain = (LinearLayout) findViewById(R.id.tab_main);
         mTabNews = (LinearLayout) findViewById(R.id.tab_news);
 
+        //主界面的三个主要控件
         imgMusic= (ImageButton) findViewById(R.id.img_music);
         imgMain= (ImageButton) findViewById(R.id.img_main);
         imgNews= (ImageButton) findViewById(R.id.img_news);
 
-        drawerLayout= (DrawerLayout) findViewById(R.id.drawerlayout);
-
+        //左右两侧的图片按钮
         imgFindMusic= (ImageButton) findViewById(R.id.img_findmusic);
         imgmine= (ImageButton) findViewById(R.id.img_mine);
 
-        navigationView= (NavigationView) findViewById(R.id.nav_view);
+        //播放时显示的一个按钮
+        btn_play= (Button) findViewById(R.id.play1);
 
-        View headerView = navigationView.getHeaderView(0);
-
-        btn_login= (Button) headerView.findViewById(R.id.btn_login);
-        btn_qd= (Button) headerView.findViewById(R.id.btn_qd);
-        img_user= (ImageView)  headerView.findViewById(R.id.icon_image);
-        tv_username= (TextView)  headerView.findViewById(R.id.tv_username);
-        tv_ts= (TextView)  headerView.findViewById(R.id.tv_ts);
-
-        tv_gxtj= (TextView) findViewById(R.id.tv_gxtj);
-        tv_gd= (TextView) findViewById(R.id.tv_gd );
-        tv_zbdt= (TextView) findViewById(R.id.tv_zbdt);
-        tv_phb= (TextView) findViewById(R.id.tv_phb);
-
-        btn_java= (Button) findViewById(R.id.btn_java);
     }
 
     //点击事件
@@ -173,6 +177,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //抽屉菜单中的选择项的点击事件
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item){
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
         //签到按钮点击事件
         btn_qd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,14 +205,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //歌单界面
-//        btn_java.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent  = new Intent(MainActivity.this,RegisterActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        btn_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,MusicPlayer.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -207,23 +219,18 @@ public class MainActivity extends AppCompatActivity {
     private void initDatas(){
 
 
-        //创建一个动态数组
-
-
         //LayoutInflater用来加载布局
-        LayoutInflater inflater = LayoutInflater.from(this);
+//        LayoutInflater inflater = LayoutInflater.from(this);
         //List<View> viewList,childlist ;
-        final List<Fragment> viewList,childlist;
-        View childViewas,childViewml,childViewpr,childViewrl,fmaview,fmuview,fneview;
-        viewList=new ArrayList<>();
-        LayoutMain viewmain;
-        fmaview = inflater.inflate(R.layout.fragmentmain, null);
-            /*fmuview=inflater.inflate(R.layout.fragmentmusic,null);
-            fneview=inflater.inflate(R.layout.fragmentnews,null);*/
-        viewmain = (LayoutMain) fmaview.findViewById(R.id.viewmain);
-        viewList.add(new FragmentMusic());
-        viewList.add(new FragmentMain());
-        viewList.add(new FragmentNews());
+//        final List<Fragment> viewList,childlist;
+//        View childViewas,childViewml,childViewpr,childViewrl,fmaview,fmuview,fneview;
+
+//        LayoutMain viewmain;
+//        fmaview = inflater.inflate(R.layout.fragmentmain, null);
+//        fmuview=inflater.inflate(R.layout.fragmentmusic,null);
+//        fneview=inflater.inflate(R.layout.fragmentnews,null);
+//        viewmain = (LayoutMain) fmaview.findViewById(R.id.viewmain);
+
 
 //            child_viewpager = (ViewPager) fmaview.findViewById(R.id.child_viewpager);
 //
@@ -270,6 +277,12 @@ public class MainActivity extends AppCompatActivity {
 //
 //                }
 //            });
+
+        final List<Fragment> viewList=new ArrayList<>();
+        viewList.add(new FragmentMusic());
+        viewList.add(new FragmentMain());
+        viewList.add(new FragmentNews());
+
         mViewPager.setAdapter(mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
@@ -302,34 +315,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class ViewPagerAdapter extends PagerAdapter {
-        List<View> viewLists;
-        public ViewPagerAdapter(List<View> list) {
-            viewLists=list;
-        }
 
-        @Override
-        public int getCount() {
-            return viewLists.size();
-        }
-        //是否由对象生成界面
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view==object;
-        }
-        //自动方法删除页
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(viewLists.get(position));
-        }
-        //确定viewpager的item对象
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(viewLists.get(position),0);
-
-            return viewLists.get(position);
-        }
-    }
 
     //点击事件
     View.OnClickListener onClickListener= new View.OnClickListener() {
@@ -337,8 +323,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             //重置所有图片
             resetImgs();
-            //更换图片
-            //获取点击的id
+            //根据点击的id更换图片
             switch (v.getId()){
                 case R.id.tab_music:
                     selectTab(0);
@@ -360,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         imgNews.setImageResource(R.mipmap.imgnew);
     }
 
-    //根据选择更换图片
+    //根据选择更换图片，更换显示第几个fragment
     private void selectTab(int i){
         switch (i){
             case 0:
@@ -387,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
+    //双击退出
     private long checkTime =0;
     private void exit() {
         if((System.currentTimeMillis()-checkTime)>2000){

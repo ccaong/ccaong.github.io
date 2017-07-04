@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -25,11 +26,12 @@ import com.android.volley.toolbox.Volley;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText tv_phone,tv_pwd;
+    private TextView tv_top;
     private ImageButton img_back;
     private Button btn_login;
-    private String data1;
     private ProgressBar progressBar;
     RequestQueue queue;
+    //    private String data1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         tv_phone= (EditText) findViewById(R.id.editText);
         tv_pwd= (EditText) findViewById(R.id.editText2);
         btn_login= (Button) findViewById(R.id.button2);
-        img_back= (ImageButton) findViewById(R.id.img_login_back);
+        img_back= (ImageButton) findViewById(R.id.img_back);
+        tv_top= (TextView) findViewById(R.id.tv_top);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
+
+        tv_top.setText("手机号登陆");
 
         //隐藏progressBar
         progressBar.setVisibility(View.INVISIBLE);
@@ -97,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             }
-        }, new Response.ErrorListener() {
+        },  new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.i("request","请求失败");

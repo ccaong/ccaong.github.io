@@ -5,7 +5,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -28,6 +30,7 @@ public class PlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         current = intent.getIntExtra("pos", 0);
         play(current);
 
@@ -42,9 +45,11 @@ public class PlayService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d("service","onDestroy");
         stopForeground(true);
     }
 
@@ -54,6 +59,9 @@ public class PlayService extends Service {
         builder.setSmallIcon(R.mipmap.ic_launcher).
                 setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)).
                 setContentTitle ("播放").setContentText("正在播放" + music.getName());
+
+        MyApplication.MusicName=music.getName();
+        MyApplication.MusicAuthor=music.getArtist();
 
         Notification notification = builder.build();
 
@@ -70,6 +78,5 @@ public class PlayService extends Service {
         } catch (IllegalStateException ex) {
             ex.printStackTrace();
         }
-
     }
 }

@@ -48,14 +48,14 @@ public class FragmentMusic extends Fragment{
                         startActivity(intent);
                         break;
                     case 1:
-                        Toast.makeText(FragmentMusic.super.getActivity(),"我的收藏",Toast.LENGTH_SHORT).show();
+                        Intent intent1 = new Intent(FragmentMusic.super.getActivity(),SongList.class);
+                        startActivity(intent1);
                         break;
                     case 2:
                         Toast.makeText(FragmentMusic.super.getActivity(),"我的电台",Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Intent intent1 = new Intent(FragmentMusic.super.getActivity(),SongList.class);
-                        startActivity(intent1);
+                        Toast.makeText(FragmentMusic.super.getActivity(),"我的音乐",Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

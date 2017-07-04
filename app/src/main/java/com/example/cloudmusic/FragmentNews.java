@@ -60,7 +60,7 @@ static WebView mWeb;
         mWeb.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         mWeb.getSettings().setSupportZoom(true);  //支持放大缩小
         mWeb.getSettings().setBuiltInZoomControls(true);
-        mWeb.loadUrl("http://www.toutiao.com");
+        mWeb.loadUrl("http://music.163.com/");
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         mWeb.getSettings().setSaveFormData(true);// 保存表单数据

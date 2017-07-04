@@ -16,6 +16,6 @@ public class FgMusicList extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fgmlist,null);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return v;
     }
 }
